@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+    
+    <entry>
+      <title><![CDATA[一个程序员的Mac环境配置]]></title>
+      <url>%2F2017%2F03%2F08%2Fmac-setup%2F</url>
+      <content type="text"><![CDATA[第一篇博客，就从环境配置开始写起吧。大学时靠父母有了人生第一台笔记本，配置还不如现在的手机，但足以满足我对电脑的好奇。从XP开始，到Ubuntu，再到现在的Mac。Mac不仅“秀外”而且“慧中”。能让我在写一天代码之后感到身心愉悦。 翻墙我现在用的是轻云，用起来很舒服，但是就快停止服务了。请诸位各显神通，不过还是推荐付费的方式，它会为你节省很多时间。时间就是金钱。 推荐软件HomeBrewHomeBrew 是macOS 不可或缺的套件管理器。类似与yum、apt-get等。 iTerm2iTerm2 is a terminal emulator for macOS that does amazing things.macOS上最好的终端了。 “Oh My ZSH!”“Oh My ZSH!” Your terminal never felt this good before.私人使用时可以用zsh替代bash Dropbox我私人的Mac需要和公司的Mac同步配置文件等。以前都用github保存配置文件，但每次都要push和pull，好烦。用了Dropbox后，感觉两台电脑可以无缝切换，自动同步文件。 spacemacs传言“vim是编辑器之神，emacs是神的编辑器”。而spacemacs这是emacs之上的vim，集合了二者的优点。 之前用vim，是vim让我放弃了eclipse。但是vim用久了感觉有些焦躁，插件装多了会很慢。我现在用spacemacs，用两个词形容就是行云流水，思行合一。不是说vim不好，spacemacs也是吸纳了vim的优点。 tmuxtmux is a terminal multiplexer. 我做服务端开发，线上线下服务器，每天同时活跃的ssh登录有几十个。tmux可以让我快速的在窗口之间跳跃（一个iTerm2窗口打开9个tab，每个tab中的tmux又可以打开10个tmux的tab，90个tab间切换的时间复杂度为O(1)，足够满足我的需求了）。而且可以保持登录的session。白天用公司的Mac工作，晚上到家，打开自己的Mac可以继续服务器上的session工作。节省了很多时间，而且让我更专注于工作内容，让人心情愉悦。 AlfredAlfred is an award-winning app for Mac OS X which boosts your efficiency with hotkeys, keywords, text expansion and more. Search your Mac and the web, and be more productive with custom actions to control your Mac. 通过指令快速的在程序之间切换。现在macOS自带的Spotlight也不错。 VirtualBox虚拟机没什么好的了。macOS虽然是类Unix内核，但还是和Linux有很大区别的。装虚拟机就为了做开发或者实验环境。虚拟机上配置双网卡，一个用来访问外网，一个用来和macOS通信。开启ssh服务，共享文件等设置，物理机和虚拟机傻傻分不清楚，有事我真的觉得我的Mac可以做Linux开发。 gitgit不只可以管理代码，也可以管理文档，配置文件等。新手推荐廖雪峰的git教程。 使用习惯 Mac的键盘和触摸板要比外接的键盘鼠标更高效。 尽量使用快捷键。 后台可以跑很多进程，但要尽量隐藏不关心的内容，以免分散注意力和精力。 重复性的工作可以考虑写脚本来完成。 KISS原则：Keep It Simple, Stupid。]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[Hello World]]></title>
+      <url>%2F2015%2F07%2F20%2Fhello-world%2F</url>
+      <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+    </entry>
+
+    
+  
+  
+</search>
