@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[机械硬盘写入性能分析]]></title>
+      <url>%2F2017%2F04%2F24%2Fhard-disk-io%2F</url>
+      <content type="text"><![CDATA[现在SSD越来越普遍了，貌似现在写这个有点晚了。但是，在一些大批量写入的场景下，机械硬盘的性价比还是比较突出的。或许有一天，机械硬盘会和软盘一样被遗弃，成为历史。 机械硬盘原理物理结构写入性能文件系统IO模型写入方式fwritemmapDIOAIO测试与监控工具iostatiotopddfio极限写入性能DIO, AIO, threads]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[git 简洁提交——合并多个commit]]></title>
       <url>%2F2017%2F04%2F10%2Fgit-squash%2F</url>
       <content type="text"><![CDATA[本地开发，服务器上编译、运行。 多台电脑间同步代码 不放心本地，为了备份经常push到代码服务器上。 因为以上等原因，我需要经常执行git commit，这就导致git的历史中包含很多无效的提交。简洁的git log和工整的代码同样重要，所以我需要合并多个commit。 简洁提交1234git checkout mastergit merge --squash featuregit commitgit push squash命令可以将整个feature分支压缩为master分支上的一个commit。 下面这条命令也可以达到类似的效果：1git merge --no-ff --no-commit 但还是有一点细微的差别，请参考这里。 修改提交历史1git rebase -i HEAD~5 -i, –interactive表示使用“交互式”的方法修改。这个命令会列出最近5个commit。大致如下： 123456789101112131415161718192021222324pick 6e53cd0 updatepick 446e6ce updatepick b1ec2c4 updatepick 366dfac updatepick 04bf27b for clear script# Rebase 574d47f..04bf27b onto 574d47f (5 command(s))## Commands:# p, pick = use commit# r, reword = use commit, but edit the commit message# e, edit = use commit, but stop for amending# s, squash = use commit, but meld into previous commit# f, fixup = like &quot;squash&quot;, but discard this commit&apos;s log message# x, exec = run command (the rest of the line) using shell# d, drop = remove commit## These lines can be re-ordered; they are executed from top to bottom.## If you remove a line here THAT COMMIT WILL BE LOST.## However, if you remove everything, the rebase will be aborted.## Note that empty commits are commented out 将pick改squash或fixup就可以将对应的commit合并到前一个commit中。区别是squash会保留commit message而fixup不会。 12345pick 6e53cd0 updatef 446e6ce updatef b1ec2c4 updatef 366dfac updatepick 04bf27b for clear script 保存退出后就会生效。]]></content>

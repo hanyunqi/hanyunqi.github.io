@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>hanyunqi</title>
+  <subtitle>Keep it simple, stupid.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="hanyunqi.me/"/>
+  <updated>2017-04-10T14:33:23.000Z</updated>
+  <id>hanyunqi.me/</id>
+  
+  <author>
+    <name>hanyunqi</name>
+    <email>hanyunqi1989@foxmail.com</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>git 简洁提交——合并多个commit</title>
+    <link href="hanyunqi.me/2017/04/10/git-squash/"/>
+    <id>hanyunqi.me/2017/04/10/git-squash/</id>
+    <published>2017-04-10T13:18:09.000Z</published>
+    <updated>2017-04-10T14:33:23.000Z</updated>
+    
+    <content type="html"><![CDATA[<ul>
+<li>本地开发，服务器上编译、运行。</li>
+<li>多台电脑间同步代码</li>
+<li>不放心本地，为了备份经常push到代码服务器上。</li>
+</ul>
+<p>因为以上等原因，我需要经常执行git commit，这就导致git的历史中包含很多无效的提交。<br>简洁的git log和工整的代码同样重要，所以我需要合并多个commit。</p>
+<h2 id="简洁提交"><a href="#简洁提交" class="headerlink" title="简洁提交"></a>简洁提交</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">git merge --squash feature</div><div class="line">git commit</div><div class="line">git push</div></pre></td></tr></table></figure>
+<p><strong> squash命令可以将整个feature分支压缩为master分支上的一个commit。</strong></p>
+<p>下面这条命令也可以达到类似的效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git merge --no-ff --no-commit</div></pre></td></tr></table></figure></p>
+<p>但还是有一点细微的差别，<a href="http://stackoverflow.com/questions/11983749/what-are-the-differences-between-squash-and-no-ff-no-commit" target="_blank" rel="external">请参考这里</a>。</p>
+<h2 id="修改提交历史"><a href="#修改提交历史" class="headerlink" title="修改提交历史"></a>修改提交历史</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rebase -i HEAD~5</div></pre></td></tr></table></figure>
+<p>-i, –interactive表示使用“交互式”的方法修改。这个命令会列出最近5个commit。<br>大致如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">pick 6e53cd0 update</div><div class="line">pick 446e6ce update</div><div class="line">pick b1ec2c4 update</div><div class="line">pick 366dfac update</div><div class="line">pick 04bf27b for clear script</div><div class="line"></div><div class="line"># Rebase 574d47f..04bf27b onto 574d47f (5 command(s))</div><div class="line">#</div><div class="line"># Commands:</div><div class="line"># p, pick = use commit</div><div class="line"># r, reword = use commit, but edit the commit message</div><div class="line"># e, edit = use commit, but stop for amending</div><div class="line"># s, squash = use commit, but meld into previous commit</div><div class="line"># f, fixup = like &quot;squash&quot;, but discard this commit&apos;s log message</div><div class="line"># x, exec = run command (the rest of the line) using shell</div><div class="line"># d, drop = remove commit</div><div class="line">#</div><div class="line"># These lines can be re-ordered; they are executed from top to bottom.</div><div class="line">#</div><div class="line"># If you remove a line here THAT COMMIT WILL BE LOST.</div><div class="line">#</div><div class="line"># However, if you remove everything, the rebase will be aborted.</div><div class="line">#</div><div class="line"># Note that empty commits are commented out</div></pre></td></tr></table></figure>
+<p>将pick改squash或fixup就可以将对应的commit合并到前一个commit中。<br>区别是squash会保留commit message而fixup不会。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">pick 6e53cd0 update</div><div class="line">f 446e6ce update</div><div class="line">f b1ec2c4 update</div><div class="line">f 366dfac update</div><div class="line">pick 04bf27b for clear script</div></pre></td></tr></table></figure>
+<p>保存退出后就会生效。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;本地开发，服务器上编译、运行。&lt;/li&gt;
+&lt;li&gt;多台电脑间同步代码&lt;/li&gt;
+&lt;li&gt;不放心本地，为了备份经常push到代码服务器上。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;因为以上等原因，我需要经常执行git commit，这就导致git的历史中包含很多无效的提交。&lt;
+    
+    </summary>
+    
+    
+      <category term="git" scheme="hanyunqi.me/public/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一个程序员的Mac环境配置</title>
+    <link href="hanyunqi.me/2017/03/09/mac-setup/"/>
+    <id>hanyunqi.me/2017/03/09/mac-setup/</id>
+    <published>2017-03-08T18:59:47.000Z</published>
+    <updated>2017-03-08T18:59:47.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>第一篇博客，就从环境配置开始写起吧。<br>大学时靠父母有了人生第一台笔记本，配置还不如现在的手机，但足以满足我对电脑的好奇。<br>从XP开始，到Ubuntu，再到现在的Mac。<br>Mac不仅“秀外”而且“慧中”。能让我在写一天代码之后感到身心愉悦。</p>
+<h2 id="翻墙"><a href="#翻墙" class="headerlink" title="翻墙"></a>翻墙</h2><p>我现在用的是<a href="https://theqingyun.net" target="_blank" rel="external">轻云</a>，用起来很舒服，但是就快停止服务了。<br>请诸位各显神通，不过还是推荐付费的方式，它会为你节省很多时间。<br>时间就是金钱。</p>
+<h2 id="推荐软件"><a href="#推荐软件" class="headerlink" title="推荐软件"></a>推荐软件</h2><h3 id="HomeBrew"><a href="#HomeBrew" class="headerlink" title="HomeBrew"></a><a href="https://brew.sh/index_zh-cn.html" target="_blank" rel="external">HomeBrew</a></h3><p>HomeBrew 是macOS 不可或缺的套件管理器。<br>类似与yum、apt-get等。</p>
+<h3 id="iTerm2"><a href="#iTerm2" class="headerlink" title="iTerm2"></a><a href="https://www.iterm2.com" target="_blank" rel="external">iTerm2</a></h3><p>iTerm2 is a terminal emulator for macOS that does amazing things.<br>macOS上最好的终端了。</p>
+<h3 id="“Oh-My-ZSH-”"><a href="#“Oh-My-ZSH-”" class="headerlink" title="“Oh My ZSH!”"></a><a href="http://ohmyz.sh" target="_blank" rel="external">“Oh My ZSH!”</a></h3><p>“Oh My ZSH!” Your terminal never felt this good before.<br>私人使用时可以用zsh替代bash</p>
+<h3 id="Dropbox"><a href="#Dropbox" class="headerlink" title="Dropbox"></a><a href="http://dropbox.com" target="_blank" rel="external">Dropbox</a></h3><p>我私人的Mac需要和公司的Mac同步配置文件等。<br>以前都用<a href="http://github.com" target="_blank" rel="external">github</a>保存配置文件，但每次都要push和pull，好烦。<br>用了Dropbox后，感觉两台电脑可以无缝切换，自动同步文件。</p>
+<h3 id="spacemacs"><a href="#spacemacs" class="headerlink" title="spacemacs"></a><a href="https://github.com/syl20bnr/spacemacs" target="_blank" rel="external">spacemacs</a></h3><p>传言“vim是编辑器之神，emacs是神的编辑器”。<br>而spacemacs这是emacs之上的vim，集合了二者的优点。</p>
+<p>之前用vim，是vim让我放弃了eclipse。但是vim用久了感觉有些焦躁，插件装多了会很慢。<br>我现在用spacemacs，用两个词形容就是行云流水，思行合一。<br>不是说vim不好，spacemacs也是吸纳了vim的优点。</p>
+<h3 id="tmux"><a href="#tmux" class="headerlink" title="tmux"></a><a href="https://tmux.github.io" target="_blank" rel="external">tmux</a></h3><p>tmux is a terminal multiplexer.</p>
+<p>我做服务端开发，线上线下服务器，每天同时活跃的ssh登录有几十个。<br>tmux可以让我快速的在窗口之间跳跃（一个iTerm2窗口打开9个tab，每个tab中的tmux又可以打开10个tmux的tab，90个tab间切换的时间复杂度为O(1)，足够满足我的需求了）。<br>而且可以保持登录的session。<br>白天用公司的Mac工作，晚上到家，打开自己的Mac可以继续服务器上的session工作。<br>节省了很多时间，而且让我更专注于工作内容，让人心情愉悦。</p>
+<h3 id="Alfred"><a href="#Alfred" class="headerlink" title="Alfred"></a><a href="https://www.alfredapp.com" target="_blank" rel="external">Alfred</a></h3><p>Alfred is an award-winning app for Mac OS X which boosts your efficiency with hotkeys, keywords, text expansion and more. Search your Mac and the web, and be more productive with custom actions to control your Mac.</p>
+<p>通过指令快速的在程序之间切换。<br>现在macOS自带的Spotlight也不错。</p>
+<h3 id="VirtualBox"><a href="#VirtualBox" class="headerlink" title="VirtualBox"></a><a href="https://www.virtualbox.org" target="_blank" rel="external">VirtualBox</a></h3><p>虚拟机没什么好的了。<br>macOS虽然是类Unix内核，但还是和Linux有很大区别的。装虚拟机就为了做开发或者实验环境。<br>虚拟机上配置双网卡，一个用来访问外网，一个用来和macOS通信。<br>开启ssh服务，共享文件等设置，物理机和虚拟机傻傻分不清楚，有事我真的觉得我的Mac可以做Linux开发。</p>
+<h3 id="git"><a href="#git" class="headerlink" title="git"></a><a href="https://git-scm.com" target="_blank" rel="external">git</a></h3><p>git不只可以管理代码，也可以管理文档，配置文件等。<br>新手推荐<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰的git教程</a>。</p>
+<h2 id="使用习惯"><a href="#使用习惯" class="headerlink" title="使用习惯"></a>使用习惯</h2><ol>
+<li>Mac的键盘和触摸板要比外接的键盘鼠标更高效。</li>
+<li>尽量使用快捷键。</li>
+<li>后台可以跑很多进程，但要尽量隐藏不关心的内容，以免分散注意力和精力。</li>
+<li>重复性的工作可以考虑写脚本来完成。</li>
+<li>KISS原则：Keep It Simple, Stupid。</li>
+</ol>
+<img src="/images/my-spacemacs.png" class="[class name]">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;第一篇博客，就从环境配置开始写起吧。&lt;br&gt;大学时靠父母有了人生第一台笔记本，配置还不如现在的手机，但足以满足我对电脑的好奇。&lt;br&gt;从XP开始，到Ubuntu，再到现在的Mac。&lt;br&gt;Mac不仅“秀外”而且“慧中”。能让我在写一天代码之后感到身心愉悦。&lt;/p&gt;
+&lt;h2 
+    
+    </summary>
+    
+    
+      <category term="mac" scheme="hanyunqi.me/public/tags/mac/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="hanyunqi.me/2015/07/20/hello-world/"/>
+    <id>hanyunqi.me/2015/07/20/hello-world/</id>
+    <published>2015-07-20T03:42:06.000Z</published>
+    <updated>2015-07-20T03:42:06.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;http://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;http://hexo.io
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
