@@ -5,7 +5,7 @@
     <entry>
       <title><![CDATA[机械硬盘写入性能分析]]></title>
       <url>%2F2017%2F04%2F24%2Fhard-disk-io%2F</url>
-      <content type="text"><![CDATA[现在SSD越来越普遍了，貌似现在写这个有点晚了。但是，在一些大批量写入的场景下，机械硬盘的性价比还是比较突出的。或许有一天，机械硬盘会和软盘一样被遗弃，成为历史。 机械硬盘原理物理结构写入性能文件系统IO模型写入方式fwritemmapDIOAIO测试与监控工具iostatiotopddfio极限写入性能DIO, AIO, threads]]></content>
+      <content type="text"><![CDATA[现在SSD越来越普遍了，貌似现在写这个有点晚了。但是，在一些大批量写入的场景下，机械硬盘的性价比还是比较突出的。或许有一天，机械硬盘会和软盘一样被遗弃，成为历史。 机械硬盘工作原理物理结构 特性在老式的机械硬盘中，每个磁道上的扇区数相同，也就是内侧（靠近转轴）磁道上的扇区较短（密集），而外侧磁道上的扇区较长（稀疏）。这样的优点是寻址（seek）时方便，缺点时浪费空间，因为外侧磁道上可以存放更多的扇区。所以，在新式的机械硬盘中，外侧磁道上的扇区数比内侧的多。也就使得外侧磁道上读写速度大于内侧磁道。 写入性能文件系统 IO模型阻塞 I/O非阻塞 I/O同步 I/O异步 I/OPOSIX, AIO 写入方式fwritemmapDIOAIO测试与监控工具iostatiotopddfio可以测试硬盘的极限性能。 极限写入性能DIO, AIO, threads]]></content>
     </entry>
 
     
