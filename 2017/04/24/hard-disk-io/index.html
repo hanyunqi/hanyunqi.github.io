@@ -1,68 +1,80 @@
-extends base
-
-block title
-  title= page.title + ' | ' + config.title
-
-block content
-  .post
-    h1.post-title= page.title
-    .post-meta= page.date.format('ll')
-      if page.categories.length > 0
-        span= ' | '
-        span.category
-          for category in page.categories.toArray()
-            a(href=url_for(category.path))= category.name
-      if theme.busuanzi == true
-        script(src='https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js', async)
-        span#busuanzi_container_page_pv= ' | '
-          span#busuanzi_value_page_pv
-          span= ' ' + __('Hits')
-      if theme.wordcount == true
-        include _partial/wordcount.pug
-    if theme.disqus
-      a.disqus-comment-count(data-disqus-identifier=page.path, href=url_for(page.path) + '#disqus_thread')
-    if theme.changyan
-      a.ds-thread-count(href=url_for(page.path) + '#SOHUCS')
-        span#changyan_count_unit(style='font-size: 15px; color: #6E7173;') 0
-        span= ' ' + __('Comment')
-      script(src='https://assets.changyan.sohu.com/upload/plugins/plugins.count.js', async)
-    if theme.valine.enable
-      a.disqus-comment-count( href=url_for(page.path) + '#vcomment')
-        span.valine-comment-count(data-xid=url_for(page.path))
-        span= ' ' + __('Comment')
-    if page.toc
-      div(class='clear')
-        div(id='toc' class='toc-article')
-          div(class='toc-title')= __('contents')
-          != toc(page.content, {list_number: theme.toc_number})
-    .post-content
-      != page.content
-    if theme.donate.enable == true
-      iframe(src='/donate/?AliPayQR=' + theme.donate.alipay_qr + '&WeChatQR=' + theme.donate.wechat_qr + '&GitHub=' + theme.donate.github + '&BTCQR=' + theme.donate.btc_qr + '&BTCKEY='+ theme.donate.btc_key + '&PayPal=' + theme.donate.paypal_url, style='overflow-x:hidden; overflow-y:hidden; border:0xp none #fff; min-height:240px; width:100%;', frameborder='0', scrolling='no')
-
-    if theme.post_copyright.enable == true && page.copyright != false
-      div
-        ul.post-copyright
-          li.post-copyright-author
-            strong= __('copyright_author_prefix')
-            = theme.post_copyright.author
-          li.post-copyright-link
-            strong= __('copyright_link_prefix')
-            a(href='/' + page.path)= page.permalink
-          li.post-copyright-license
-            strong= __('copyright_declare_prefix')
-            if theme.post_copyright.copyright_text
-              != theme.post_copyright.copyright_text
-            else
-              != __('copyright_default_text')
-      br
-
-    if theme.shareto == true
-      script(type='text/javascript', src=url_for(theme.js) + '/share.js' + '?v=' + theme.version, async)
-      a.article-share-link(data-url=page.permalink, data-id=page._id, data-qrcode=qrcode(page.permalink))= __('shareto')
-
-    include _partial/tag.pug
-    include _partial/post_nav.pug
-
-    if page.comments
-      include _partial/comments.pug
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>机械硬盘写入性能分析 | hanyunqi</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create','UA-104673368-1','auto');ga('send','pageview');
+</script></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">机械硬盘写入性能分析</h1><a id="logo" href="/.">hanyunqi</a><p class="description">Keep It Simple, Stupid!</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/about/"><i class="fa fa-user"> About</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">机械硬盘写入性能分析</h1><div class="post-meta">Apr 24, 2017</div><a class="disqus-comment-count" data-disqus-identifier="2017/04/24/hard-disk-io/" href="/2017/04/24/hard-disk-io/#disqus_thread"></a><div class="post-content"><p>现在SSD越来越普遍了，貌似现在写这个有点晚了。<br>但是，在一些大批量写入的场景下，机械硬盘的性价比还是比较突出的。<br>或许有一天，机械硬盘会和软盘一样被遗弃，成为历史。<br><a id="more"></a></p>
+<h2 id="机械硬盘工作原理"><a href="#机械硬盘工作原理" class="headerlink" title="机械硬盘工作原理"></a>机械硬盘工作原理</h2><h3 id="物理结构"><a href="#物理结构" class="headerlink" title="物理结构"></a>物理结构</h3><img src="/images/hard-disk.jpg" class="[class name]">
+<img src="/images/hard-disk2.jpg" class="[class name]">
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>在老式的机械硬盘中，每个磁道上的扇区数相同，也就是内侧（靠近转轴）磁道上的扇区较短（密集），而外侧磁道上的扇区较长（稀疏）。这样的优点是寻址（seek）时方便，缺点时浪费空间，因为外侧磁道上可以存放更多的扇区。<br>所以，在新式的机械硬盘中，外侧磁道上的扇区数比内侧的多。也就使得<strong>外侧磁道上读写速度大于内侧磁道</strong>。</p>
+<h2 id="写入性能"><a href="#写入性能" class="headerlink" title="写入性能"></a>写入性能</h2><ul>
+<li>磁盘寻道</li>
+<li>系统调用</li>
+<li>内存拷贝</li>
+<li>队列深度</li>
+<li>BLOCK SIZE</li>
+<li>CHACHE</li>
+</ul>
+<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><img src="/images/file-system.gif" class="[class name]">
+<p>Linux系统分用户空间和内核空间，一次写入操作需要把用户空间的数据通过系统调用拷贝到内核空间，再由内核调度写入磁盘。<br>一般系统调用和内存拷贝都需要消耗较多的CPU时间。</p>
+<h2 id="IO模型"><a href="#IO模型" class="headerlink" title="IO模型"></a>IO模型</h2><h3 id="阻塞-I-O"><a href="#阻塞-I-O" class="headerlink" title="阻塞 I/O"></a>阻塞 I/O</h3><img src="/images/blocking-io.png" class="[class name]">
+<p>典型的阻塞式I/O就是直接通过write系统调用写数据。</p>
+<h3 id="非阻塞-I-O"><a href="#非阻塞-I-O" class="headerlink" title="非阻塞 I/O"></a>非阻塞 I/O</h3><img src="/images/unblocking-io.png" class="[class name]">
+<p>非阻塞式I/O和阻塞式I/O的区别就是，非阻塞式I/O的请求会立即返回，而不必等待写入操作完成再返回。</p>
+<h3 id="同步-I-O"><a href="#同步-I-O" class="headerlink" title="同步 I/O"></a>同步 I/O</h3><h3 id="异步-I-O"><a href="#异步-I-O" class="headerlink" title="异步 I/O"></a>异步 I/O</h3><img src="/images/asynchronous-io.png" class="[class name]">
+<p>在Linux系统上有POSIX AIO和libaio两种异步I/O方式。<br>POSIX AIO是一个在多个线程中执行正常阻塞I / O的用户级实现,因此给出了I / O是异步的错觉。<br>Libaio是异步I / O操作的内核支持，其中io请求实际上在内核中排队，根据您拥有的磁盘调度程序排序, (使用TCQ或NCQ)作为异步操作转发(以某种最佳顺序希望)到实际磁盘。<br>所以从性能的角度考虑，libaio更好一些。</p>
+<h2 id="写入方式"><a href="#写入方式" class="headerlink" title="写入方式"></a>写入方式</h2><h3 id="fwrite"><a href="#fwrite" class="headerlink" title="fwrite"></a>fwrite</h3><p>更加通用的方式，通过在用户空间准备缓冲区，减少系统调用。这种做法一般情况下都会有不错的性能表现。但在高速写入的场景下CPU会成为瓶颈，因为多做了一次内存拷贝。</p>
+<h3 id="mmap"><a href="#mmap" class="headerlink" title="mmap"></a>mmap</h3><p>将用户空间和内核空间做映射，以减少内存拷贝。而且特别适合随机读写。</p>
+<h3 id="DIO"><a href="#DIO" class="headerlink" title="DIO"></a>DIO</h3><p>绕过内核缓冲区，直接写入磁盘的方式。这是一把双刃剑，使用起来比较麻烦，而且处理不当的话反而会更慢。</p>
+<h3 id="AIO"><a href="#AIO" class="headerlink" title="AIO"></a>AIO</h3><p>配合DIO可以达到最大性能。</p>
+<h2 id="测试与监控工具"><a href="#测试与监控工具" class="headerlink" title="测试与监控工具"></a>测试与监控工具</h2><h3 id="iostat"><a href="#iostat" class="headerlink" title="iostat"></a>iostat</h3><p>比较专业的系统I/O观测工具。<br><a href="http://hedengcheng.com/?p=687" target="_blank" rel="external">排队论</a></p>
+<h3 id="iotop"><a href="#iotop" class="headerlink" title="iotop"></a>iotop</h3><p>类似于top命令，方便观测实时I/O速度。</p>
+<h3 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h3><p>简单的写入性能测试工具。</p>
+<h3 id="fio"><a href="#fio" class="headerlink" title="fio"></a>fio</h3><p>可以测试硬盘的极限性能。</p>
+<h2 id="极限写入性能"><a href="#极限写入性能" class="headerlink" title="极限写入性能"></a>极限写入性能</h2><p>使用DIO + AIO + 多线程的方式可以达到极限性能。</p>
+</div><div class="tags"><a href="/public/tags/c/">c++</a><a href="/public/tags/linux/">linux</a><a href="/public/tags/io/">io</a></div><div class="post-nav"><a class="pre" href="/2017/04/10/git-squash/">git 简洁提交——合并多个commit</a><a class="next" href="/2017/07/10/yumdownloader/">Centos下普通用户安装软件包</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://hanyunqi.me/2017/04/24/hard-disk-io/';
+    this.page.identifier = '2017/04/24/hard-disk-io/';
+    this.page.title = '机械硬盘写入性能分析';
+  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
+url: 'https://disqus.com/next/config.json',
+timeout: 2500,
+type: 'GET',
+success: function(){
+  var d = document;
+  var s = d.createElement('script');
+  s.src = '//hanyunqi.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', + new Date());
+  (d.head || d.body).appendChild(s);
+  $('.disqus_click_btn').css('display', 'none');
+},
+error: function() {
+  $('.disqus_click_btn').css('display', 'block');
+}
+});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
+    (() => { // DON'T EDIT BELOW THIS LINE
+        var d = document;
+        var s = d.createElement('script');
+        s.src = '//hanyunqi.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', + new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    $('.disqus_click_btn').css('display','none');
+});</script><script type="text/javascript" id="disqus-count-script">$(function() {
+     var xhr = new XMLHttpRequest();
+     xhr.open('GET', '//disqus.com/next/config.json', true);
+     xhr.timeout = 2500;
+     xhr.onreadystatechange = function () {
+       if (xhr.readyState === 4 && xhr.status === 200) {
+         $('.post-meta .post-comments-count').show();
+         var s = document.createElement('script');
+         s.id = 'dsq-count-scr';
+         s.src = 'https://hanyunqi.disqus.com/count.js';
+         s.async = true;
+         (document.head || document.body).appendChild(s);
+       }
+     };
+     xhr.ontimeout = function () { xhr.abort(); };
+     xhr.send(null);
+   });
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://hanyunqi.me"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/public/tags/mac/" style="font-size: 15px;">mac</a> <a href="/public/tags/c/" style="font-size: 15px;">c++</a> <a href="/public/tags/linux/" style="font-size: 15px;">linux</a> <a href="/public/tags/io/" style="font-size: 15px;">io</a> <a href="/public/tags/空间索引-rtree/" style="font-size: 15px;">空间索引 rtree</a> <a href="/public/tags/git/" style="font-size: 15px;">git</a> <a href="/public/tags/mmap/" style="font-size: 15px;">mmap</a> <a href="/public/tags/rcu/" style="font-size: 15px;">rcu</a> <a href="/public/tags/lock-free/" style="font-size: 15px;">lock-free</a> <a href="/public/tags/shadowsocks/" style="font-size: 15px;">shadowsocks</a> <a href="/public/tags/c-linux/" style="font-size: 15px;">c++ linux</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/记一次计算密集型服务性能优化/">记一次计算密集型服务的性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/27/rcu/">RCU(Read Copy Update)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/25/rcu-cache/">多读场景下的本地缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/03/有趣的代码/">有趣的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/singleton/">用C++写一个单例</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/25/hilbert-rtree/">静态的希尔伯特RTree</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/12/C-捕获异常时的栈信息/">C++ 捕获异常时的栈信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/shadowsocks/">使用shadowsocks + vps科学上网</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/mmap-load-data/">使用共享内存加速加载静态数据</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/10/yumdownloader/">Centos下普通用户安装软件包</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div><script type="text/javascript" src="//hanyunqi.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://www.linode.com/?r=524c694d5f90ed82f7f4a48caec1d34d65a6cef4" title="购买VPS" target="_blank">购买VPS</a><ul></ul><a href="https://db.tt/TyxIiiNBV3" title="注册Dropbox" target="_blank">注册Dropbox</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">hanyunqi.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
