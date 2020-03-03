@@ -1,18 +1,274 @@
-<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>记一次计算密集型服务的性能优化 | hanyunqi的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create','UA-104673368-1','auto');ga('send','pageview');
-</script></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">记一次计算密集型服务的性能优化</h1><a id="logo" href="/.">hanyunqi的博客</a><p class="description">Keep It Simple, Stupid!</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/about/"><i class="fa fa-user"> About</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">记一次计算密集型服务的性能优化</h1><div class="post-meta">Jan 13, 2020</div><a class="disqus-comment-count" data-disqus-identifier="2020/01/13/记一次计算密集型服务性能优化/" href="/2020/01/13/记一次计算密集型服务性能优化/#disqus_thread"></a><div class="post-content"><p>性能优化是一个庞杂的话题，不同的场景，不同的视角都会得到不同的理解。<br>比如：有的为了提高吞吐，有的为了降低延迟，有的为了节省资源。<br>他们并不是同一个问题，有时可以牺牲一定的延迟来换取更高的吞吐，比如批量处理；<br>有时可以用更多的存储空间来换取更低的延迟，比如哈希表……</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://hanyunqi.me').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="性能优化是一个庞杂的话题，不同的场景，不同的视角都会得到不同的理解。比如：有的为了提高吞吐，有的为了降低延迟，有的为了节省资源。他们并不是同一个问题，有时可以牺牲一定的延迟来换取更高的吞吐，比如批量处理；有时可以用更多的存储空间来换取更低的延迟，比如哈希表…… 本文讲述的是对计算密集型服务提高吞吐和降低延迟的优化经验和理解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次计算密集型服务的性能优化">
+<meta property="og:url" content="http://hanyunqi.me/2020/01/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="hanyunqi的博客">
+<meta property="og:description" content="性能优化是一个庞杂的话题，不同的场景，不同的视角都会得到不同的理解。比如：有的为了提高吞吐，有的为了降低延迟，有的为了节省资源。他们并不是同一个问题，有时可以牺牲一定的延迟来换取更高的吞吐，比如批量处理；有时可以用更多的存储空间来换取更低的延迟，比如哈希表…… 本文讲述的是对计算密集型服务提高吞吐和降低延迟的优化经验和理解。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://hanyunqi.me/images/2020/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%84%91%E5%9B%BE.png">
+<meta property="og:image" content="http://hanyunqi.me/images/2020/linux_kernal_architecture.png">
+<meta property="og:image" content="http://hanyunqi.me/images/2020/ng_191209_rel.svg">
+<meta property="og:image" content="http://hanyunqi.me/images/2020/perf.ng.%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%90%8E.svg">
+<meta property="og:image" content="http://hanyunqi.me/images/2020/huge_page.jpg">
+<meta property="og:image" content="http://hanyunqi.me/images/2020/linux_performance_tools.jpeg">
+<meta property="article:published_time" content="2020-01-13T09:47:30.000Z">
+<meta property="article:modified_time" content="2020-02-26T13:55:55.770Z">
+<meta property="article:author" content="hanyunqi">
+<meta property="article:tag" content="c++ linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hanyunqi.me/images/2020/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%84%91%E5%9B%BE.png">
+
+<link rel="canonical" href="http://hanyunqi.me/2020/01/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>记一次计算密集型服务的性能优化 | hanyunqi的博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104673368-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-104673368-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hanyunqi的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <!--div class="headband"></div-->
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hanyunqi的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Keep It Simple, Stupid!</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">15</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2020/01/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记一次计算密集型服务的性能优化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-13 17:47:30" itemprop="dateCreated datePublished" datetime="2020-01-13T17:47:30+08:00">2020-01-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-26 21:55:55" itemprop="dateModified" datetime="2020-02-26T21:55:55+08:00">2020-02-26</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/01/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/13/记一次计算密集型服务性能优化/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>性能优化是一个庞杂的话题，不同的场景，不同的视角都会得到不同的理解。<br>比如：有的为了提高吞吐，有的为了降低延迟，有的为了节省资源。<br>他们并不是同一个问题，有时可以牺牲一定的延迟来换取更高的吞吐，比如批量处理；<br>有时可以用更多的存储空间来换取更低的延迟，比如哈希表……</p>
 <p>本文讲述的是对计算密集型服务提高吞吐和降低延迟的优化经验和理解。</p>
+<a id="more"></a>
+
 <h1 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h1><p>这是微服务框架下的一个末端计算节点，使用C++编写，只有一个上游调用方，没有下游。<br>不使用数据库等外部存储，所有数据都在内存中（约占用45GB内存）。<br>使用Thrift ThreadPool框架，接收到请求后，根据内存中的数据做“简单”计算后打成ProtoBuffer包返回给调用方。</p>
 <p><strong>在48核物理机上，优化前极限QPS是3.5k左右，优化后的极限QPS超过14k，性能提升4倍。</strong></p>
 <h1 id="二、方法论"><a href="#二、方法论" class="headerlink" title="二、方法论"></a>二、方法论</h1><p>性能优化也可以从不同层面去考虑，比如业务流程、架构设计、硬件配置亦或是代码编写等。<br>本文主要从代码优化的角度来优化性能。</p>
 <p>使用perf等工具可以分析出热点代码。<br><strong>根据二八法则，优化20%的代码可以提升80%的性能。</strong><br>所以要先找出瓶颈，然后优化这个瓶颈，然后再找下一个瓶颈……</p>
-<img src="/images/2020/性能优化脑图.png" class="[class name]">
+<img src="/images/2020/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%84%91%E5%9B%BE.png" class="[class name]">
 <p>如上图，我归纳了一些常见的性能瓶颈。<br>一般极限QPS下如果CPU利用率不高，就要考虑是否有阻塞或者竞争（锁）；<br>如果CPU利用率达到或者接近100%，极限性能还是不高，可以考虑优化流程，算法，去除不必要的内存拷贝，减少堆内存的申请、释放和系统调用等。</p>
 <p>当然，有些系统看上去没有明显的瓶颈（没有明显的热点代码），这时候就比较考验工程师对性能优化的理解了。<br>一般可以从精简流程或者使用高效的“方法”替代低效的“方法”入手。<br>比如减少临时对象，使用哈希表替代红黑树，提高缓存利用率等方法。</p>
 <img src="/images/2020/linux_kernal_architecture.png" class="[class name]">
+
 <p><strong>做好性能优化的关键是：了解计算机是如何运转的。</strong></p>
 <ol>
 <li>了解硬件的工作原理，知道哪些操作快哪些些操作慢，比如：相比于内存，磁盘IO的速度比较慢；相比于cache，内存的读写比较慢等等。</li>
@@ -31,7 +287,7 @@ ga('create','UA-104673368-1','auto');ga('send','pageview');
 <li>可扩展性</li>
 </ol>
 <h1 id="三、第一轮优化——去除IO阻塞"><a href="#三、第一轮优化——去除IO阻塞" class="headerlink" title="三、第一轮优化——去除IO阻塞"></a>三、第一轮优化——去除IO阻塞</h1><p><strong>找到瓶颈，依据数据而不是凭空猜测。</strong></p>
-<p>优化前的极限QPS是3.5k，简单分析一下发现总的CPU利用率只有50%左右，推断系统内部有严重的阻塞（条件等待）。<br>常见阻塞原因有IO阻塞和互斥锁，使用<a href="https://linux.die.net/man/1/iostat" target="_blank" rel="external">iostat</a>进一步观察系统状态发现await和iowait都很高，这说明IO阻塞比较严重。<br>因为系统运行时只有写日志会触发IO，所以怀疑是写同步日志造成的IO阻塞。<br>关闭日志后压测发现极限QPS可以达到8k+，这基本可以断定写同步日志对系统性能影响比较大。<br>将同步日志改为异步日志很容易，可是也会带来一些弊端。<br>最严重的就是有丢日志的风险，进程异常退出时可能导致缓存中的日志不能刷到磁盘上。<br>考虑到日志本身价值不大，只有在系统异常退出时（比如OOM），需要日志辅助定位问题。<br>综合考虑后，打算把错误日志记同步日志，其他的记异步日志。<br>这次优化的收益很明显，只修改了日志配置，极限QPS从3.5k提升到7k+。<br>后续打算把访问日志分离出来，也记同步日志，降低丢日志的影响。</p>
+<p>优化前的极限QPS是3.5k，简单分析一下发现总的CPU利用率只有50%左右，推断系统内部有严重的阻塞（条件等待）。<br>常见阻塞原因有IO阻塞和互斥锁，使用<a href="https://linux.die.net/man/1/iostat" target="_blank" rel="noopener">iostat</a>进一步观察系统状态发现await和iowait都很高，这说明IO阻塞比较严重。<br>因为系统运行时只有写日志会触发IO，所以怀疑是写同步日志造成的IO阻塞。<br>关闭日志后压测发现极限QPS可以达到8k+，这基本可以断定写同步日志对系统性能影响比较大。<br>将同步日志改为异步日志很容易，可是也会带来一些弊端。<br>最严重的就是有丢日志的风险，进程异常退出时可能导致缓存中的日志不能刷到磁盘上。<br>考虑到日志本身价值不大，只有在系统异常退出时（比如OOM），需要日志辅助定位问题。<br>综合考虑后，打算把错误日志记同步日志，其他的记异步日志。<br>这次优化的收益很明显，只修改了日志配置，极限QPS从3.5k提升到7k+。<br>后续打算把访问日志分离出来，也记同步日志，降低丢日志的影响。</p>
 <h1 id="四、第二轮优化——代码优化"><a href="#四、第二轮优化——代码优化" class="headerlink" title="四、第二轮优化——代码优化"></a>四、第二轮优化——代码优化</h1><p><strong>二八法则，优先解决头部问题。</strong></p>
 <img src="/images/2020/ng_191209_rel.svg" class="[class name]">
 <p>火焰图</p>
@@ -45,7 +301,7 @@ ga('create','UA-104673368-1','auto');ga('send','pageview');
 <p>iostream用起来很方便，但是性能很糟糕，调用频繁的地方可以用snprintf()代替。</p>
 <p>如果可以的话，用unordered_map代替map，用数组代替unordered_map。</p>
 <h1 id="五、第三轮优化——减少竞争"><a href="#五、第三轮优化——减少竞争" class="headerlink" title="五、第三轮优化——减少竞争"></a>五、第三轮优化——减少竞争</h1><p>做完第二轮优化，性能提升50%，极限QPS从7k提升到10k+。<br>这时候malloc/free带来的开销就更加突出，而且极限情况下CPU利用率也只有70%。<br>所以锁推断是因为malloc/free中有线程锁，加上STL频繁的申请释放内存导致的。<br>因为TCMalloc有线程级的缓存，可以缓解这一现象，这和第二轮优化中的测试结果不符（因为编译问题导致TCMalloc未能生效）。<br>仔细检查并修正后，性能大幅提升，极限QPS可以超过14k。CPU利用率达到95%左右。</p>
-<img src="/images/2020/perf.ng.性能优化后.svg" class="[class name]">
+<img src="/images/2020/perf.ng.%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%90%8E.svg" class="[class name]">
 <p>优化后的火焰图</p>
 <h1 id="六、还可以做哪些优化"><a href="#六、还可以做哪些优化" class="headerlink" title="六、还可以做哪些优化"></a>六、还可以做哪些优化</h1><p>前三轮优化使性能提升4倍，总体改动量不大，风险也可控，所以产出投入比还是很高的。<br>还有一些可以优化的点，因为改造成本、改造风险、运维成本和收益不够等原因暂时没有实施。</p>
 <h2 id="6-1-优化数据结构"><a href="#6-1-优化数据结构" class="headerlink" title="6.1 优化数据结构"></a>6.1 优化数据结构</h2><p>服务会用到大量的静态数据，单份数据超过20GB。这些数据的结构还有优化空间。</p>
@@ -53,9 +309,9 @@ ga('create','UA-104673368-1','auto');ga('send','pageview');
 <li>有些数据用二叉树做索引，如果换成哈希表性能会更好。</li>
 <li>数据不够紧凑，还有压缩空间，一般数据越紧凑对cache的利用率也会越高。</li>
 </ol>
-<h2 id="6-2-优化ProtoBuffer"><a href="#6-2-优化ProtoBuffer" class="headerlink" title="6.2 优化ProtoBuffer"></a>6.2 优化ProtoBuffer</h2><p>ProtoBuffer也会因为频繁的申请/释放小对象导致性能不佳，可以用<a href="https://developers.google.com/protocol-buffers/docs/reference/arenas" target="_blank" rel="external">Arena Allocation</a>优化。</p>
+<h2 id="6-2-优化ProtoBuffer"><a href="#6-2-优化ProtoBuffer" class="headerlink" title="6.2 优化ProtoBuffer"></a>6.2 优化ProtoBuffer</h2><p>ProtoBuffer也会因为频繁的申请/释放小对象导致性能不佳，可以用<a href="https://developers.google.com/protocol-buffers/docs/reference/arenas" target="_blank" rel="noopener">Arena Allocation</a>优化。</p>
 <p>Memory allocation and deallocation constitutes a significant fraction of CPU time spent in protocol buffers code. By default, protocol buffers performs heap allocations for each message object, each of its subobjects, and several field types, such as strings. These allocations occur in bulk when parsing a message and when building new messages in memory, and associated deallocations happen when messages and their subobject trees are freed.</p>
-<h2 id="6-3-使用Huge-Page"><a href="#6-3-使用Huge-Page" class="headerlink" title="6.3 使用Huge Page"></a>6.3 使用Huge Page</h2><p><a href="https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt" target="_blank" rel="external">Huge Page</a>，是指的大页内存管理方式。与传统的4KB的普通页管理方式相比，Huge Page管理大内存(8GB以上)更为高效。<br>我们的服务占用40GB以上的内存，所以理论上使用Huge Page会有一定性能提升。<br>不过使用Huge Page也会带来额外的运维成本，也需要综合考虑风险和稳定性等原因。</p>
+<h2 id="6-3-使用Huge-Page"><a href="#6-3-使用Huge-Page" class="headerlink" title="6.3 使用Huge Page"></a>6.3 使用Huge Page</h2><p><a href="https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt" target="_blank" rel="noopener">Huge Page</a>，是指的大页内存管理方式。与传统的4KB的普通页管理方式相比，Huge Page管理大内存(8GB以上)更为高效。<br>我们的服务占用40GB以上的内存，所以理论上使用Huge Page会有一定性能提升。<br>不过使用Huge Page也会带来额外的运维成本，也需要综合考虑风险和稳定性等原因。</p>
 <img src="/images/2020/huge_page.jpg" class="[class name]">
 <p>Huge Page的示意图</p>
 <h1 id="七、总结"><a href="#七、总结" class="headerlink" title="七、总结"></a>七、总结</h1><h2 id="7-1-是否需要优化？"><a href="#7-1-是否需要优化？" class="headerlink" title="7.1 是否需要优化？"></a>7.1 是否需要优化？</h2><p>性能优化是一个复杂的问题，除了如何提高性能还需要从收益、成本、风险等维度综合考虑。<br>尤其要考虑清楚为什么要优化？是否需要优化？产出投入比是否够高？是否有更好的解决方案?</p>
@@ -68,50 +324,241 @@ ga('create','UA-104673368-1','auto');ga('send','pageview');
 </ol>
 <h2 id="7-3-“其下攻城”"><a href="#7-3-“其下攻城”" class="headerlink" title="7.3 “其下攻城”"></a>7.3 “其下攻城”</h2><p>代码是给人看的，程序还要靠计算机来运行。要知道计算机是如何运行的，知道每行代码背后计算机都做了什么，知道哪些操作快、哪些操作慢，才能做好性能优化。</p>
 <img src="/images/2020/linux_performance_tools.jpeg" class="[class name]">
+
 <p>有太多的点不能一一列举，总结一下就是：<strong>理论指导实践，实践检验理论。</strong></p>
-</div><div class="tags"><a href="/public/tags/c-linux/">c++ linux</a></div><div class="post-nav"><a class="pre" href="/2019/05/27/rcu/">RCU(Read Copy Update)</a><a class="next" href="/2020/01/31/费曼技巧/">学习方法——费曼技巧</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
-    this.page.url = 'http://hanyunqi.me/2020/01/13/记一次计算密集型服务性能优化/';
-    this.page.identifier = '2020/01/13/记一次计算密集型服务性能优化/';
-    this.page.title = '记一次计算密集型服务的性能优化';
-  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
-url: 'https://disqus.com/next/config.json',
-timeout: 2500,
-type: 'GET',
-success: function(){
-  var d = document;
-  var s = d.createElement('script');
-  s.src = '//hanyunqi.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', + new Date());
-  (d.head || d.body).appendChild(s);
-  $('.disqus_click_btn').css('display', 'none');
-},
-error: function() {
-  $('.disqus_click_btn').css('display', 'block');
-}
-});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
-    (() => { // DON'T EDIT BELOW THIS LINE
-        var d = document;
-        var s = d.createElement('script');
-        s.src = '//hanyunqi.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', + new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-    $('.disqus_click_btn').css('display','none');
-});</script><script type="text/javascript" id="disqus-count-script">$(function() {
-     var xhr = new XMLHttpRequest();
-     xhr.open('GET', '//disqus.com/next/config.json', true);
-     xhr.timeout = 2500;
-     xhr.onreadystatechange = function () {
-       if (xhr.readyState === 4 && xhr.status === 200) {
-         $('.post-meta .post-comments-count').show();
-         var s = document.createElement('script');
-         s.id = 'dsq-count-scr';
-         s.src = 'https://hanyunqi.disqus.com/count.js';
-         s.async = true;
-         (document.head || document.body).appendChild(s);
-       }
-     };
-     xhr.ontimeout = function () { xhr.abort(); };
-     xhr.send(null);
-   });
-</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://hanyunqi.me"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/public/tags/空间索引-rtree/" style="font-size: 15px;">空间索引 rtree</a> <a href="/public/tags/c/" style="font-size: 15px;">c++</a> <a href="/public/tags/git/" style="font-size: 15px;">git</a> <a href="/public/tags/linux/" style="font-size: 15px;">linux</a> <a href="/public/tags/io/" style="font-size: 15px;">io</a> <a href="/public/tags/mac/" style="font-size: 15px;">mac</a> <a href="/public/tags/rcu/" style="font-size: 15px;">rcu</a> <a href="/public/tags/mmap/" style="font-size: 15px;">mmap</a> <a href="/public/tags/lock-free/" style="font-size: 15px;">lock-free</a> <a href="/public/tags/shadowsocks/" style="font-size: 15px;">shadowsocks</a> <a href="/public/tags/c-linux/" style="font-size: 15px;">c++ linux</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/01/31/费曼技巧/">学习方法——费曼技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/记一次计算密集型服务性能优化/">记一次计算密集型服务的性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/27/rcu/">RCU(Read Copy Update)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/25/rcu-cache/">多读场景下的本地缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/03/有趣的代码/">有趣的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/singleton/">用C++写一个单例</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/25/hilbert-rtree/">静态的希尔伯特RTree</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/12/C-捕获异常时的栈信息/">C++ 捕获异常时的栈信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/shadowsocks/">使用shadowsocks + vps科学上网</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/mmap-load-data/">使用共享内存加速加载静态数据</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div><script type="text/javascript" src="//hanyunqi.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://www.linode.com/?r=524c694d5f90ed82f7f4a48caec1d34d65a6cef4" title="购买VPS" target="_blank">购买VPS</a><ul></ul><a href="https://db.tt/TyxIiiNBV3" title="注册Dropbox" target="_blank">注册Dropbox</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">hanyunqi的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/public/tags/c-linux/" rel="tag"># c++ linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/05/27/rcu/" rel="prev" title="RCU(Read Copy Update)">
+      <i class="fa fa-chevron-left"></i> RCU(Read Copy Update)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/31/%E8%B4%B9%E6%9B%BC%E6%8A%80%E5%B7%A7/" rel="next" title="学习方法——费曼技巧">
+      学习方法——费曼技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、背景"><span class="nav-text">一、背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、方法论"><span class="nav-text">二、方法论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、第一轮优化——去除IO阻塞"><span class="nav-text">三、第一轮优化——去除IO阻塞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、第二轮优化——代码优化"><span class="nav-text">四、第二轮优化——代码优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-去除冗余逻辑"><span class="nav-text">4.1 去除冗余逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-标准模板-STL-的性能优化"><span class="nav-text">4.2 标准模板(STL)的性能优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、第三轮优化——减少竞争"><span class="nav-text">五、第三轮优化——减少竞争</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、还可以做哪些优化"><span class="nav-text">六、还可以做哪些优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-优化数据结构"><span class="nav-text">6.1 优化数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-优化ProtoBuffer"><span class="nav-text">6.2 优化ProtoBuffer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-使用Huge-Page"><span class="nav-text">6.3 使用Huge Page</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、总结"><span class="nav-text">七、总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-是否需要优化？"><span class="nav-text">7.1 是否需要优化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-“上兵伐谋”"><span class="nav-text">7.2 “上兵伐谋”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-“其下攻城”"><span class="nav-text">7.3 “其下攻城”</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hanyunqi"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">hanyunqi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:m@hanyunqi.me" title="E-Mail → mailto:m@hanyunqi.me"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hanyunqi</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a>
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://hanyunqi.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://hanyunqi.me/2020/01/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/";
+    this.page.identifier = "2020/01/13/记一次计算密集型服务性能优化/";
+    this.page.title = "记一次计算密集型服务的性能优化";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://hanyunqi.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

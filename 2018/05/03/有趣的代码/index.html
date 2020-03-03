@@ -1,9 +1,255 @@
-<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>有趣的代码 | hanyunqi的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create','UA-104673368-1','auto');ga('send','pageview');
-</script></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">有趣的代码</h1><a id="logo" href="/.">hanyunqi的博客</a><p class="description">Keep It Simple, Stupid!</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/about/"><i class="fa fa-user"> About</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">有趣的代码</h1><div class="post-meta">May 3, 2018</div><a class="disqus-comment-count" data-disqus-identifier="2018/05/03/有趣的代码/" href="/2018/05/03/有趣的代码/#disqus_thread"></a><div class="post-content"><p>今天刷论坛时发现下面这段代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">i = <span class="number">0x5f3759df</span> - ( i &gt;&gt; <span class="number">1</span> );               <span class="comment">// what the fuck?</span></div></pre></td></tr></table></figure></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://hanyunqi.me').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="今天刷论坛时发现下面这段代码1i &#x3D; 0x5f3759df - ( i &gt;&gt; 1 );               &#x2F;&#x2F; what the fuck? 哈哈，刚看到这行时我也不禁说了一句：“what the fuck?”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有趣的代码">
+<meta property="og:url" content="http://hanyunqi.me/2018/05/03/%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BB%A3%E7%A0%81/index.html">
+<meta property="og:site_name" content="hanyunqi的博客">
+<meta property="og:description" content="今天刷论坛时发现下面这段代码1i &#x3D; 0x5f3759df - ( i &gt;&gt; 1 );               &#x2F;&#x2F; what the fuck? 哈哈，刚看到这行时我也不禁说了一句：“what the fuck?”">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-05-03T09:42:16.000Z">
+<meta property="article:modified_time" content="2019-05-28T03:31:16.000Z">
+<meta property="article:author" content="hanyunqi">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://hanyunqi.me/2018/05/03/%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BB%A3%E7%A0%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>有趣的代码 | hanyunqi的博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104673368-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-104673368-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hanyunqi的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <!--div class="headband"></div-->
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hanyunqi的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Keep It Simple, Stupid!</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">15</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2018/05/03/%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BB%A3%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          有趣的代码
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-03 17:42:16" itemprop="dateCreated datePublished" datetime="2018-05-03T17:42:16+08:00">2018-05-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-05-28 11:31:16" itemprop="dateModified" datetime="2019-05-28T11:31:16+08:00">2019-05-28</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2018/05/03/%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BB%A3%E7%A0%81/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/05/03/有趣的代码/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天刷论坛时发现下面这段代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">i = <span class="number">0x5f3759df</span> - ( i &gt;&gt; <span class="number">1</span> );               <span class="comment">// what the fuck?</span></div></pre></td></tr></table></figure></p>
 <p>哈哈，刚看到这行时我也不禁说了一句：“what the fuck?”<br><a id="more"></a></p>
 <p>完整的代码如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">** float q_rsqrt( float number )</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">float</span> <span class="title">Q_rsqrt</span><span class="params">( <span class="keyword">float</span> number )</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">long</span> i;</div><div class="line">    <span class="keyword">float</span> x2, y;</div><div class="line">    <span class="keyword">const</span> <span class="keyword">float</span> threehalfs = <span class="number">1.5F</span>;</div><div class="line"></div><div class="line">    x2 = number * <span class="number">0.5F</span>;</div><div class="line">    y  = number;</div><div class="line">    i  = * ( <span class="keyword">long</span> * ) &amp;y;                       <span class="comment">// evil floating point bit level hacking</span></div><div class="line">    i  = <span class="number">0x5f3759df</span> - ( i &gt;&gt; <span class="number">1</span> );               <span class="comment">// what the fuck?</span></div><div class="line">    y  = * ( <span class="keyword">float</span> * ) &amp;i;</div><div class="line">    y  = y * ( threehalfs - ( x2 * y * y ) );   <span class="comment">// 1st iteration</span></div><div class="line"><span class="comment">//  y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> Q3_VM</span></div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __linux__</span></div><div class="line">    assert( !isnan(y) ); <span class="comment">// bk010122 - FPE?</span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">    <span class="keyword">return</span> y;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -13,49 +259,238 @@ ga('create','UA-104673368-1','auto');ga('send','pageview');
 <p>完整的代码在<a href="https://github.com/antirez/redis/blob/e6b0e8d9ec4561a07864358af8d2d4e81ac413fc/src/lzf_c.c#L39" target="_blank" rel="external">这里</a>。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">#define HSIZE (1 &lt;&lt; (HLOG))</div><div class="line"></div><div class="line">/*</div><div class="line"> * don't play with this unless you benchmark!</div><div class="line"> * the data format is not dependent on the hash function.</div><div class="line"> * the hash function might seem strange, just believe me,</div><div class="line"> * it works ;)</div><div class="line"> */</div><div class="line">#ifndef FRST</div><div class="line"># define FRST(p) (((p[0]) &lt;&lt; 8) | p[1])</div><div class="line"># define NEXT(v,p) (((v) &lt;&lt; 8) | p[2])</div><div class="line"># if ULTRA_FAST</div><div class="line">#  define IDX(h) ((( h             &gt;&gt; (3*8 - HLOG)) - h  ) &amp; (HSIZE - 1))</div><div class="line"># elif VERY_FAST</div><div class="line">#  define IDX(h) ((( h             &gt;&gt; (3*8 - HLOG)) - h*5) &amp; (HSIZE - 1))</div><div class="line"># else</div><div class="line">#  define IDX(h) ((((h ^ (h &lt;&lt; 5)) &gt;&gt; (3*8 - HLOG)) - h*5) &amp; (HSIZE - 1))</div><div class="line"># endif</div><div class="line">#endif</div><div class="line">/*</div><div class="line"> * IDX works because it is very similar to a multiplicative hash, e.g.</div><div class="line"> * ((h * 57321 &gt;&gt; (3*8 - HLOG)) &amp; (HSIZE - 1))</div><div class="line"> * the latter is also quite fast on newer CPUs, and compresses similarly.</div><div class="line"> *</div><div class="line"> * the next one is also quite good, albeit slow ;)</div><div class="line"> * (int)(cos(h &amp; 0xffffff) * 1e6)</div><div class="line"> */</div></pre></td></tr></table></figure>
 <p>短短的几行代码，堪称智慧的结晶。这也是计算机有趣的地方。</p>
-</div><div class="tags"><a href="/public/tags/c/">c++</a></div><div class="post-nav"><a class="pre" href="/2018/04/28/singleton/">用C++写一个单例</a><a class="next" href="/2019/04/25/rcu-cache/">多读场景下的本地缓存</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
-    this.page.url = 'http://hanyunqi.me/2018/05/03/有趣的代码/';
-    this.page.identifier = '2018/05/03/有趣的代码/';
-    this.page.title = '有趣的代码';
-  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
-url: 'https://disqus.com/next/config.json',
-timeout: 2500,
-type: 'GET',
-success: function(){
-  var d = document;
-  var s = d.createElement('script');
-  s.src = '//hanyunqi.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', + new Date());
-  (d.head || d.body).appendChild(s);
-  $('.disqus_click_btn').css('display', 'none');
-},
-error: function() {
-  $('.disqus_click_btn').css('display', 'block');
-}
-});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
-    (() => { // DON'T EDIT BELOW THIS LINE
-        var d = document;
-        var s = d.createElement('script');
-        s.src = '//hanyunqi.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', + new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-    $('.disqus_click_btn').css('display','none');
-});</script><script type="text/javascript" id="disqus-count-script">$(function() {
-     var xhr = new XMLHttpRequest();
-     xhr.open('GET', '//disqus.com/next/config.json', true);
-     xhr.timeout = 2500;
-     xhr.onreadystatechange = function () {
-       if (xhr.readyState === 4 && xhr.status === 200) {
-         $('.post-meta .post-comments-count').show();
-         var s = document.createElement('script');
-         s.id = 'dsq-count-scr';
-         s.src = 'https://hanyunqi.disqus.com/count.js';
-         s.async = true;
-         (document.head || document.body).appendChild(s);
-       }
-     };
-     xhr.ontimeout = function () { xhr.abort(); };
-     xhr.send(null);
-   });
-</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://hanyunqi.me"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/public/tags/空间索引-rtree/" style="font-size: 15px;">空间索引 rtree</a> <a href="/public/tags/c/" style="font-size: 15px;">c++</a> <a href="/public/tags/git/" style="font-size: 15px;">git</a> <a href="/public/tags/linux/" style="font-size: 15px;">linux</a> <a href="/public/tags/io/" style="font-size: 15px;">io</a> <a href="/public/tags/mac/" style="font-size: 15px;">mac</a> <a href="/public/tags/rcu/" style="font-size: 15px;">rcu</a> <a href="/public/tags/mmap/" style="font-size: 15px;">mmap</a> <a href="/public/tags/lock-free/" style="font-size: 15px;">lock-free</a> <a href="/public/tags/shadowsocks/" style="font-size: 15px;">shadowsocks</a> <a href="/public/tags/c-linux/" style="font-size: 15px;">c++ linux</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/01/31/费曼技巧/">学习方法——费曼技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/记一次计算密集型服务性能优化/">记一次计算密集型服务的性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/27/rcu/">RCU(Read Copy Update)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/25/rcu-cache/">多读场景下的本地缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/03/有趣的代码/">有趣的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/singleton/">用C++写一个单例</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/25/hilbert-rtree/">静态的希尔伯特RTree</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/12/C-捕获异常时的栈信息/">C++ 捕获异常时的栈信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/shadowsocks/">使用shadowsocks + vps科学上网</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/mmap-load-data/">使用共享内存加速加载静态数据</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div><script type="text/javascript" src="//hanyunqi.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://www.linode.com/?r=524c694d5f90ed82f7f4a48caec1d34d65a6cef4" title="购买VPS" target="_blank">购买VPS</a><ul></ul><a href="https://db.tt/TyxIiiNBV3" title="注册Dropbox" target="_blank">注册Dropbox</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">hanyunqi的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/public/tags/c/" rel="tag"># c++</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/28/singleton/" rel="prev" title="用C++写一个单例">
+      <i class="fa fa-chevron-left"></i> 用C++写一个单例
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/25/rcu-cache/" rel="next" title="多读场景下的本地缓存">
+      多读场景下的本地缓存 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hanyunqi"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">hanyunqi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:m@hanyunqi.me" title="E-Mail → mailto:m@hanyunqi.me"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hanyunqi</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a>
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://hanyunqi.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://hanyunqi.me/2018/05/03/%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BB%A3%E7%A0%81/";
+    this.page.identifier = "2018/05/03/有趣的代码/";
+    this.page.title = "有趣的代码";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://hanyunqi.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

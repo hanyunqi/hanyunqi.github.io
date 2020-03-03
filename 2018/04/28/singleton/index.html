@@ -1,9 +1,255 @@
-<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>用C++写一个单例 | hanyunqi的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create','UA-104673368-1','auto');ga('send','pageview');
-</script></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">用C++写一个单例</h1><a id="logo" href="/.">hanyunqi的博客</a><p class="description">Keep It Simple, Stupid!</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/about/"><i class="fa fa-user"> About</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">用C++写一个单例</h1><div class="post-meta">Apr 28, 2018</div><a class="disqus-comment-count" data-disqus-identifier="2018/04/28/singleton/" href="/2018/04/28/singleton/#disqus_thread"></a><div class="post-content"><p>“请用C++写一个单例，考虑一下多线程环境。”<br>这是一个常见的面试题，别人问过我，我也问过别人。<br>这个问题可以很简单，也可以很复杂。<br><a id="more"></a></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://hanyunqi.me').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="“请用C++写一个单例，考虑一下多线程环境。”这是一个常见的面试题，别人问过我，我也问过别人。这个问题可以很简单，也可以很复杂。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用C++写一个单例">
+<meta property="og:url" content="http://hanyunqi.me/2018/04/28/singleton/index.html">
+<meta property="og:site_name" content="hanyunqi的博客">
+<meta property="og:description" content="“请用C++写一个单例，考虑一下多线程环境。”这是一个常见的面试题，别人问过我，我也问过别人。这个问题可以很简单，也可以很复杂。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-04-28T07:21:10.000Z">
+<meta property="article:modified_time" content="2020-01-14T02:23:58.000Z">
+<meta property="article:author" content="hanyunqi">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://hanyunqi.me/2018/04/28/singleton/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>用C++写一个单例 | hanyunqi的博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104673368-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-104673368-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hanyunqi的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <!--div class="headband"></div-->
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hanyunqi的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Keep It Simple, Stupid!</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">15</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2018/04/28/singleton/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用C++写一个单例
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-28 15:21:10" itemprop="dateCreated datePublished" datetime="2018-04-28T15:21:10+08:00">2018-04-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-14 10:23:58" itemprop="dateModified" datetime="2020-01-14T10:23:58+08:00">2020-01-14</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2018/04/28/singleton/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/28/singleton/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>“请用C++写一个单例，考虑一下多线程环境。”<br>这是一个常见的面试题，别人问过我，我也问过别人。<br>这个问题可以很简单，也可以很复杂。<br><a id="more"></a></p>
 <h1 id="简单有效的单例"><a href="#简单有效的单例" class="headerlink" title="简单有效的单例"></a>简单有效的单例</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> Singleton &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">static</span> Singleton* <span class="title">GetInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        Singleton singleton;</div><div class="line">        <span class="keyword">return</span> &amp;singleton;</div><div class="line">    &#125;   </div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>在C++11中静态局部变量的初始化是线程安全的，<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2660.htm#LocalDecl" target="_blank" rel="external">参考链接</a>。<br>这种写法既简单，又是线程安全的，可以满足大多数场景的需求。</p>
 <h1 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h1><p>单例在程序初期进行初始化。即如论如何都会初始化。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> Singleton &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">static</span> Singleton* <span class="title">GetInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> singleton;</div><div class="line">    &#125;   </div><div class="line"></div><div class="line"><span class="keyword">static</span> Singleton* singleton;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Singleton* Singleton::singleton = <span class="keyword">new</span> Singleton();</div></pre></td></tr></table></figure></p>
@@ -31,49 +277,239 @@ ga('create','UA-104673368-1','auto');ga('send','pageview');
 <h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> Singleton &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">static</span> Singleton&amp; <span class="title">GetInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">static</span> Singleton singleton;</div><div class="line">        <span class="keyword">return</span> singleton;</div><div class="line">    &#125;   </div><div class="line"></div><div class="line">    <span class="comment">// 如果需要有比较重的初始化操作，则在安全的情况下初始化</span></div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">Init</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="comment">// 禁用构造函数、拷贝构造函数、拷贝函数</span></div><div class="line">    Singleton();</div><div class="line">    Singleton(<span class="keyword">const</span> Singleton&amp;);</div><div class="line">    Singleton&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> Singleton&amp;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>这种写法比较简单，可以满足大多数场景的需求。如果不能满足需求，再考虑DCLP那种复杂的模式。如《UNIX编程艺术》中所说：“Keep it sample, Stupid！”</p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://locklessinc.com/articles/singleton_pattern/" target="_blank" rel="external">The Singleton Pattern</a><br><a href="http://www.cnblogs.com/loveis715/archive/2012/07/18/2598409.html" target="_blank" rel="external">面试中的Singleton</a><br><a href="https://zh.wikipedia.org/wiki/内存屏障" target="_blank" rel="external">内存屏障</a></p>
-</div><div class="tags"><a href="/public/tags/c/">c++</a></div><div class="post-nav"><a class="pre" href="/2018/04/25/hilbert-rtree/">静态的希尔伯特RTree</a><a class="next" href="/2018/05/03/有趣的代码/">有趣的代码</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
-    this.page.url = 'http://hanyunqi.me/2018/04/28/singleton/';
-    this.page.identifier = '2018/04/28/singleton/';
-    this.page.title = '用C++写一个单例';
-  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
-url: 'https://disqus.com/next/config.json',
-timeout: 2500,
-type: 'GET',
-success: function(){
-  var d = document;
-  var s = d.createElement('script');
-  s.src = '//hanyunqi.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', + new Date());
-  (d.head || d.body).appendChild(s);
-  $('.disqus_click_btn').css('display', 'none');
-},
-error: function() {
-  $('.disqus_click_btn').css('display', 'block');
-}
-});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
-    (() => { // DON'T EDIT BELOW THIS LINE
-        var d = document;
-        var s = d.createElement('script');
-        s.src = '//hanyunqi.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', + new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-    $('.disqus_click_btn').css('display','none');
-});</script><script type="text/javascript" id="disqus-count-script">$(function() {
-     var xhr = new XMLHttpRequest();
-     xhr.open('GET', '//disqus.com/next/config.json', true);
-     xhr.timeout = 2500;
-     xhr.onreadystatechange = function () {
-       if (xhr.readyState === 4 && xhr.status === 200) {
-         $('.post-meta .post-comments-count').show();
-         var s = document.createElement('script');
-         s.id = 'dsq-count-scr';
-         s.src = 'https://hanyunqi.disqus.com/count.js';
-         s.async = true;
-         (document.head || document.body).appendChild(s);
-       }
-     };
-     xhr.ontimeout = function () { xhr.abort(); };
-     xhr.send(null);
-   });
-</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://hanyunqi.me"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/public/tags/空间索引-rtree/" style="font-size: 15px;">空间索引 rtree</a> <a href="/public/tags/c/" style="font-size: 15px;">c++</a> <a href="/public/tags/git/" style="font-size: 15px;">git</a> <a href="/public/tags/linux/" style="font-size: 15px;">linux</a> <a href="/public/tags/io/" style="font-size: 15px;">io</a> <a href="/public/tags/mac/" style="font-size: 15px;">mac</a> <a href="/public/tags/rcu/" style="font-size: 15px;">rcu</a> <a href="/public/tags/mmap/" style="font-size: 15px;">mmap</a> <a href="/public/tags/lock-free/" style="font-size: 15px;">lock-free</a> <a href="/public/tags/shadowsocks/" style="font-size: 15px;">shadowsocks</a> <a href="/public/tags/c-linux/" style="font-size: 15px;">c++ linux</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/01/31/费曼技巧/">学习方法——费曼技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/记一次计算密集型服务性能优化/">记一次计算密集型服务的性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/27/rcu/">RCU(Read Copy Update)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/25/rcu-cache/">多读场景下的本地缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/03/有趣的代码/">有趣的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/singleton/">用C++写一个单例</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/25/hilbert-rtree/">静态的希尔伯特RTree</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/12/C-捕获异常时的栈信息/">C++ 捕获异常时的栈信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/shadowsocks/">使用shadowsocks + vps科学上网</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/mmap-load-data/">使用共享内存加速加载静态数据</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div><script type="text/javascript" src="//hanyunqi.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://www.linode.com/?r=524c694d5f90ed82f7f4a48caec1d34d65a6cef4" title="购买VPS" target="_blank">购买VPS</a><ul></ul><a href="https://db.tt/TyxIiiNBV3" title="注册Dropbox" target="_blank">注册Dropbox</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">hanyunqi的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/public/tags/c/" rel="tag"># c++</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/25/hilbert-rtree/" rel="prev" title="静态的希尔伯特RTree">
+      <i class="fa fa-chevron-left"></i> 静态的希尔伯特RTree
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/03/%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BB%A3%E7%A0%81/" rel="next" title="有趣的代码">
+      有趣的代码 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简单有效的单例"><span class="nav-text">简单有效的单例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#饿汉模式"><span class="nav-text">饿汉模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#懒汉模式"><span class="nav-text">懒汉模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DCLP（Double-Checked-Locking-Pattern）"><span class="nav-text">DCLP（Double-Checked Locking Pattern）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回指针还是引用？"><span class="nav-text">返回指针还是引用？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结论"><span class="nav-text">结论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hanyunqi"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">hanyunqi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:m@hanyunqi.me" title="E-Mail → mailto:m@hanyunqi.me"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hanyunqi</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a>
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://hanyunqi.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://hanyunqi.me/2018/04/28/singleton/";
+    this.page.identifier = "2018/04/28/singleton/";
+    this.page.title = "用C++写一个单例";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://hanyunqi.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

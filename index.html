@@ -1,11 +1,1233 @@
-<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>hanyunqi的博客 | Keep It Simple, Stupid!</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create','UA-104673368-1','auto');ga('send','pageview');
-</script></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">hanyunqi的博客</h1><a id="logo" href="/.">hanyunqi的博客</a><p class="description">Keep It Simple, Stupid!</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/about/"><i class="fa fa-user"> About</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title"><a href="/2020/01/31/费曼技巧/">学习方法——费曼技巧</a></h1><div class="post-meta">2020-01-31</div><a class="disqus-comment-count" data-disqus-identifier="2020/01/31/费曼技巧/" href="/2020/01/31/费曼技巧/#disqus_thread"></a><div class="post-content"><p><a href="https://fs.blog/2012/04/feynman-technique/" target="_blank" rel="external">费曼技巧</a>是一种简单有效的学习方法，简单来说就是<strong>假装把你要学习的概念教授给别人，如果不能讲清楚就重新学习。</strong>它有四个步骤：</p></div><p class="readmore"><a href="/2020/01/31/费曼技巧/">Read More</a></p></div><div class="post"><h1 class="post-title"><a href="/2020/01/13/记一次计算密集型服务性能优化/">记一次计算密集型服务的性能优化</a></h1><div class="post-meta">2020-01-13</div><a class="disqus-comment-count" data-disqus-identifier="2020/01/13/记一次计算密集型服务性能优化/" href="/2020/01/13/记一次计算密集型服务性能优化/#disqus_thread"></a><div class="post-content"><p>性能优化是一个庞杂的话题，不同的场景，不同的视角都会得到不同的理解。<br>比如：有的为了提高吞吐，有的为了降低延迟，有的为了节省资源。<br>他们并不是同一个问题，有时可以牺牲一定的延迟来换取更高的吞吐，比如批量处理；<br>有时可以用更多的存储空间来换取更低的延迟，比如哈希表……</p>
-<p>本文讲述的是对计算密集型服务提高吞吐和降低延迟的优化经验和理解。</p></div><p class="readmore"><a href="/2020/01/13/记一次计算密集型服务性能优化/">Read More</a></p></div><div class="post"><h1 class="post-title"><a href="/2019/05/27/rcu/">RCU(Read Copy Update)</a></h1><div class="post-meta">2019-05-27</div><a class="disqus-comment-count" data-disqus-identifier="2019/05/27/rcu/" href="/2019/05/27/rcu/#disqus_thread"></a><div class="post-content"><p>前段时间做系统重构，需要一个快速的本地缓存，类似于黑名单，读多写少的那种。<br>之前一直用的是哈希表加读写锁的方案，如果出现大规模的写操作，会导致读操作被阻塞。<br>想找一个更高效的解决方案，最好是无锁。<br></div><p class="readmore"><a href="/2019/05/27/rcu/">Read More</a></p></div><div class="post"><h1 class="post-title"><a href="/2019/04/25/rcu-cache/">多读场景下的本地缓存</a></h1><div class="post-meta">2019-04-25</div><a class="disqus-comment-count" data-disqus-identifier="2019/04/25/rcu-cache/" href="/2019/04/25/rcu-cache/#disqus_thread"></a><div class="post-content"><p>在读写分离的架构中通常需要一个高性能的缓存，而且这个缓存是读多写少的。<br>比如黑名单缓存，一个线程负责更新，多个线程读取。<br></div><p class="readmore"><a href="/2019/04/25/rcu-cache/">Read More</a></p></div><div class="post"><h1 class="post-title"><a href="/2018/05/03/有趣的代码/">有趣的代码</a></h1><div class="post-meta">2018-05-03</div><a class="disqus-comment-count" data-disqus-identifier="2018/05/03/有趣的代码/" href="/2018/05/03/有趣的代码/#disqus_thread"></a><div class="post-content"><p>今天刷论坛时发现下面这段代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">i = <span class="number">0x5f3759df</span> - ( i &gt;&gt; <span class="number">1</span> );               <span class="comment">// what the fuck?</span></div></pre></td></tr></table></figure></p>
-<p>哈哈，刚看到这行时我也不禁说了一句：“what the fuck?”<br></div><p class="readmore"><a href="/2018/05/03/有趣的代码/">Read More</a></p></div><div class="post"><h1 class="post-title"><a href="/2018/04/28/singleton/">用C++写一个单例</a></h1><div class="post-meta">2018-04-28</div><a class="disqus-comment-count" data-disqus-identifier="2018/04/28/singleton/" href="/2018/04/28/singleton/#disqus_thread"></a><div class="post-content"><p>“请用C++写一个单例，考虑一下多线程环境。”<br>这是一个常见的面试题，别人问过我，我也问过别人。<br>这个问题可以很简单，也可以很复杂。<br></div><p class="readmore"><a href="/2018/04/28/singleton/">Read More</a></p></div><div class="post"><h1 class="post-title"><a href="/2018/04/25/hilbert-rtree/">静态的希尔伯特RTree</a></h1><div class="post-meta">2018-04-25</div><a class="disqus-comment-count" data-disqus-identifier="2018/04/25/hilbert-rtree/" href="/2018/04/25/hilbert-rtree/#disqus_thread"></a><div class="post-content"><p>先考虑一个常见的问题：如何搜索附近的人（车、银行、餐厅等）？<br>可以把这类问题抽象成：快速搜索二维（或者高维）空间上某一指定区域内的数据。<br>很明显，简单的二叉树或者哈希表解决不了这个问题。<br></div><p class="readmore"><a href="/2018/04/25/hilbert-rtree/">Read More</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/12/12/C-捕获异常时的栈信息/">C++ 捕获异常时的栈信息</a></h1><div class="post-meta">2017-12-12</div><a class="disqus-comment-count" data-disqus-identifier="2017/12/12/C-捕获异常时的栈信息/" href="/2017/12/12/C-捕获异常时的栈信息/#disqus_thread"></a><div class="post-content"><p>由于种种原因，我还是不太推荐在C++使用异常机制。所以也不捕获异常，如果有问题直接让它挂掉。<br>最近遇到一个问题，我的框架“帮”我捕获了vector抛出的越界异常，没有了core文件，很难定位问题具体出在哪一行。<br></div><p class="readmore"><a href="/2017/12/12/C-捕获异常时的栈信息/">Read More</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/08/11/shadowsocks/">使用shadowsocks + vps科学上网</a></h1><div class="post-meta">2017-08-11</div><a class="disqus-comment-count" data-disqus-identifier="2017/08/11/shadowsocks/" href="/2017/08/11/shadowsocks/#disqus_thread"></a><div class="post-content"><p>由于众所周知的原因，出现了“科学上网”这门技术。<br>由于VPN、ssh等在建立连接或通信是存在明显的特征，容易被针对，而且不是为“墙”而生的，在使用上多少有些蹩脚。所以shadowsocks应运而生。<br></div><p class="readmore"><a href="/2017/08/11/shadowsocks/">Read More</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/08/11/mmap-load-data/">使用共享内存加速加载静态数据</a></h1><div class="post-meta">2017-08-11</div><a class="disqus-comment-count" data-disqus-identifier="2017/08/11/mmap-load-data/" href="/2017/08/11/mmap-load-data/#disqus_thread"></a><div class="post-content"><p>之前遇见一个问题，程序启动时要加载大量的静态数据，导致启动速度很慢。<br></div><p class="readmore"><a href="/2017/08/11/mmap-load-data/">Read More</a></p></div><nav class="page-navigator"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next</a></nav><script id="dsq-count-scr" src="//hanyunqi.disqus.com/count.js" async></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://hanyunqi.me').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="hanyunqi的博客">
+<meta property="og:url" content="http://hanyunqi.me/index.html">
+<meta property="og:site_name" content="hanyunqi的博客">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="hanyunqi">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://hanyunqi.me/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: true,
+    isPost: false
+  };
+</script>
+
+  <title>hanyunqi的博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104673368-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-104673368-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hanyunqi的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <!--div class="headband"></div-->
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hanyunqi的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Keep It Simple, Stupid!</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">15</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2020/02/15/%E7%A8%8B%E5%BA%8F%E4%B8%AD%E7%9A%84%E8%B5%84%E4%BA%A7%E5%92%8C%E8%B4%9F%E5%80%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/15/%E7%A8%8B%E5%BA%8F%E4%B8%AD%E7%9A%84%E8%B5%84%E4%BA%A7%E5%92%8C%E8%B4%9F%E5%80%BA/" class="post-title-link" itemprop="url">软件工程中的资产和负债</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-15 15:30:53" itemprop="dateCreated datePublished" datetime="2020-02-15T15:30:53+08:00">2020-02-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-03 12:32:01" itemprop="dateModified" datetime="2020-03-03T12:32:01+08:00">2020-03-03</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/02/15/%E7%A8%8B%E5%BA%8F%E4%B8%AD%E7%9A%84%E8%B5%84%E4%BA%A7%E5%92%8C%E8%B4%9F%E5%80%BA/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/02/15/程序中的资产和负债/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>多年前看过《富爸爸，穷爸爸》一书。书中内容大多记不清了，只记得“资产”和“负债”这两个概念。书中的重中之重就是解读“增加资产”和“减少负债”。这给我不少的启发，我开始注重投资，包括在编程的时候。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/15/%E7%A8%8B%E5%BA%8F%E4%B8%AD%E7%9A%84%E8%B5%84%E4%BA%A7%E5%92%8C%E8%B4%9F%E5%80%BA/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2020/01/31/%E8%B4%B9%E6%9B%BC%E6%8A%80%E5%B7%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/31/%E8%B4%B9%E6%9B%BC%E6%8A%80%E5%B7%A7/" class="post-title-link" itemprop="url">学习方法——费曼技巧</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-31 13:31:38" itemprop="dateCreated datePublished" datetime="2020-01-31T13:31:38+08:00">2020-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-26 21:55:27" itemprop="dateModified" datetime="2020-02-26T21:55:27+08:00">2020-02-26</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/01/31/%E8%B4%B9%E6%9B%BC%E6%8A%80%E5%B7%A7/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/31/费曼技巧/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://fs.blog/2012/04/feynman-technique/" target="_blank" rel="noopener">费曼技巧</a>是一种简单有效的学习方法，简单来说就是<strong>假装把你要学习的概念教授给别人，如果不能讲清楚就重新学习。</strong>它有四个步骤：</p>
+<ol>
+<li>选择一个你要学习的概念</li>
+<li>假装要把它教给别人</li>
+<li>如果发有解释不清的地方，就重新学习</li>
+<li>尝试简化你的教授过程</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/31/%E8%B4%B9%E6%9B%BC%E6%8A%80%E5%B7%A7/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2020/01/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">记一次计算密集型服务的性能优化</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-13 17:47:30" itemprop="dateCreated datePublished" datetime="2020-01-13T17:47:30+08:00">2020-01-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-26 21:55:55" itemprop="dateModified" datetime="2020-02-26T21:55:55+08:00">2020-02-26</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/01/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/13/记一次计算密集型服务性能优化/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>性能优化是一个庞杂的话题，不同的场景，不同的视角都会得到不同的理解。<br>比如：有的为了提高吞吐，有的为了降低延迟，有的为了节省资源。<br>他们并不是同一个问题，有时可以牺牲一定的延迟来换取更高的吞吐，比如批量处理；<br>有时可以用更多的存储空间来换取更低的延迟，比如哈希表……</p>
+<p>本文讲述的是对计算密集型服务提高吞吐和降低延迟的优化经验和理解。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2019/05/27/rcu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/27/rcu/" class="post-title-link" itemprop="url">RCU(Read Copy Update)</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-27 16:52:47" itemprop="dateCreated datePublished" datetime="2019-05-27T16:52:47+08:00">2019-05-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-05-28 14:33:40" itemprop="dateModified" datetime="2019-05-28T14:33:40+08:00">2019-05-28</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/05/27/rcu/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/27/rcu/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>前段时间做系统重构，需要一个快速的本地缓存，类似于黑名单，读多写少的那种。<br>之前一直用的是哈希表加读写锁的方案，如果出现大规模的写操作，会导致读操作被阻塞。<br>想找一个更高效的解决方案，最好是无锁。<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/05/27/rcu/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2019/04/25/rcu-cache/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/25/rcu-cache/" class="post-title-link" itemprop="url">多读场景下的本地缓存</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-04-25 10:10:47" itemprop="dateCreated datePublished" datetime="2019-04-25T10:10:47+08:00">2019-04-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-05-30 11:01:57" itemprop="dateModified" datetime="2019-05-30T11:01:57+08:00">2019-05-30</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/04/25/rcu-cache/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/04/25/rcu-cache/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在读写分离的架构中通常需要一个高性能的缓存，而且这个缓存是读多写少的。<br>比如黑名单缓存，一个线程负责更新，多个线程读取。<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/04/25/rcu-cache/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2018/05/03/%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BB%A3%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/03/%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BB%A3%E7%A0%81/" class="post-title-link" itemprop="url">有趣的代码</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-03 17:42:16" itemprop="dateCreated datePublished" datetime="2018-05-03T17:42:16+08:00">2018-05-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-05-28 11:31:16" itemprop="dateModified" datetime="2019-05-28T11:31:16+08:00">2019-05-28</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2018/05/03/%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BB%A3%E7%A0%81/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/05/03/有趣的代码/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天刷论坛时发现下面这段代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">i = <span class="number">0x5f3759df</span> - ( i &gt;&gt; <span class="number">1</span> );               <span class="comment">// what the fuck?</span></div></pre></td></tr></table></figure></p>
+<p>哈哈，刚看到这行时我也不禁说了一句：“what the fuck?”<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/05/03/%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BB%A3%E7%A0%81/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2018/04/28/singleton/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/28/singleton/" class="post-title-link" itemprop="url">用C++写一个单例</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-28 15:21:10" itemprop="dateCreated datePublished" datetime="2018-04-28T15:21:10+08:00">2018-04-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-14 10:23:58" itemprop="dateModified" datetime="2020-01-14T10:23:58+08:00">2020-01-14</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2018/04/28/singleton/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/28/singleton/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>“请用C++写一个单例，考虑一下多线程环境。”<br>这是一个常见的面试题，别人问过我，我也问过别人。<br>这个问题可以很简单，也可以很复杂。<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/28/singleton/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2018/04/25/hilbert-rtree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/25/hilbert-rtree/" class="post-title-link" itemprop="url">静态的希尔伯特RTree</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-25 10:10:47" itemprop="dateCreated datePublished" datetime="2018-04-25T10:10:47+08:00">2018-04-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-05-28 11:33:27" itemprop="dateModified" datetime="2019-05-28T11:33:27+08:00">2019-05-28</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2018/04/25/hilbert-rtree/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/25/hilbert-rtree/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>先考虑一个常见的问题：如何搜索附近的人（车、银行、餐厅等）？<br>可以把这类问题抽象成：快速搜索二维（或者高维）空间上某一指定区域内的数据。<br>很明显，简单的二叉树或者哈希表解决不了这个问题。<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/25/hilbert-rtree/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2017/12/12/C-%E6%8D%95%E8%8E%B7%E5%BC%82%E5%B8%B8%E6%97%B6%E7%9A%84%E6%A0%88%E4%BF%A1%E6%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/12/C-%E6%8D%95%E8%8E%B7%E5%BC%82%E5%B8%B8%E6%97%B6%E7%9A%84%E6%A0%88%E4%BF%A1%E6%81%AF/" class="post-title-link" itemprop="url">C++ 捕获异常时的栈信息</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-12-12 18:26:43" itemprop="dateCreated datePublished" datetime="2017-12-12T18:26:43+08:00">2017-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-05-28 11:32:05" itemprop="dateModified" datetime="2019-05-28T11:32:05+08:00">2019-05-28</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/12/12/C-%E6%8D%95%E8%8E%B7%E5%BC%82%E5%B8%B8%E6%97%B6%E7%9A%84%E6%A0%88%E4%BF%A1%E6%81%AF/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/12/12/C-捕获异常时的栈信息/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>由于种种原因，我还是不太推荐在C++使用异常机制。所以也不捕获异常，如果有问题直接让它挂掉。<br>最近遇到一个问题，我的框架“帮”我捕获了vector抛出的越界异常，没有了core文件，很难定位问题具体出在哪一行。<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/12/12/C-%E6%8D%95%E8%8E%B7%E5%BC%82%E5%B8%B8%E6%97%B6%E7%9A%84%E6%A0%88%E4%BF%A1%E6%81%AF/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hanyunqi.me/2017/08/11/shadowsocks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hanyunqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanyunqi的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/08/11/shadowsocks/" class="post-title-link" itemprop="url">使用shadowsocks + vps科学上网</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-08-11 15:53:25" itemprop="dateCreated datePublished" datetime="2017-08-11T15:53:25+08:00">2017-08-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-05-28 11:32:21" itemprop="dateModified" datetime="2019-05-28T11:32:21+08:00">2019-05-28</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/08/11/shadowsocks/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/11/shadowsocks/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>由于众所周知的原因，出现了“科学上网”这门技术。<br>由于VPN、ssh等在建立连接或通信是存在明显的特征，容易被针对，而且不是为“墙”而生的，在使用上多少有些蹩脚。所以shadowsocks应运而生。<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/08/11/shadowsocks/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
   });
-</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://hanyunqi.me"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/public/tags/空间索引-rtree/" style="font-size: 15px;">空间索引 rtree</a> <a href="/public/tags/c/" style="font-size: 15px;">c++</a> <a href="/public/tags/git/" style="font-size: 15px;">git</a> <a href="/public/tags/linux/" style="font-size: 15px;">linux</a> <a href="/public/tags/io/" style="font-size: 15px;">io</a> <a href="/public/tags/mac/" style="font-size: 15px;">mac</a> <a href="/public/tags/rcu/" style="font-size: 15px;">rcu</a> <a href="/public/tags/mmap/" style="font-size: 15px;">mmap</a> <a href="/public/tags/lock-free/" style="font-size: 15px;">lock-free</a> <a href="/public/tags/shadowsocks/" style="font-size: 15px;">shadowsocks</a> <a href="/public/tags/c-linux/" style="font-size: 15px;">c++ linux</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/01/31/费曼技巧/">学习方法——费曼技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/记一次计算密集型服务性能优化/">记一次计算密集型服务的性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/27/rcu/">RCU(Read Copy Update)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/25/rcu-cache/">多读场景下的本地缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/03/有趣的代码/">有趣的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/singleton/">用C++写一个单例</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/25/hilbert-rtree/">静态的希尔伯特RTree</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/12/C-捕获异常时的栈信息/">C++ 捕获异常时的栈信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/shadowsocks/">使用shadowsocks + vps科学上网</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/mmap-load-data/">使用共享内存加速加载静态数据</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div><script type="text/javascript" src="//hanyunqi.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://www.linode.com/?r=524c694d5f90ed82f7f4a48caec1d34d65a6cef4" title="购买VPS" target="_blank">购买VPS</a><ul></ul><a href="https://db.tt/TyxIiiNBV3" title="注册Dropbox" target="_blank">注册Dropbox</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">hanyunqi的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hanyunqi"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">hanyunqi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:m@hanyunqi.me" title="E-Mail → mailto:m@hanyunqi.me"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hanyunqi</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a>
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://hanyunqi.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+
+</body>
+</html>
